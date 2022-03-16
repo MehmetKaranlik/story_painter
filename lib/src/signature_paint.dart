@@ -5,11 +5,12 @@ import '../story_painter.dart';
 class StoryPainterPaint extends StatefulWidget {
   final StoryPainterControl? control;
   final bool Function(Size size)? onSize;
+  final Image image;
 
   const StoryPainterPaint({
     Key? key,
     this.control,
-    this.onSize,
+    this.onSize, required this.image,
   }) : super(key: key);
 
   @override
@@ -23,6 +24,7 @@ class StoryPainterPaintState extends State<StoryPainterPaint> {
     super.initState();
     widget.control!.paths.forEach((_path) {
       pathWidgets.add(SinglePath(
+        image: widget.image,
         path: _path,
         onSize: widget.onSize,
         type: _path!.type,
@@ -34,6 +36,7 @@ class StoryPainterPaintState extends State<StoryPainterPaint> {
   void add() {
     pathWidgets.add(
       SinglePath(
+        image: widget.image,
         key: ObjectKey(widget.control!.paths.last!.id),
         path: widget.control!.paths.last,
         onSize: widget.onSize,
@@ -69,9 +72,10 @@ class StoryPainterPaintState extends State<StoryPainterPaint> {
 class SinglePath extends StatefulWidget {
   final CubicPath? path;
   final PainterDrawType? type;
+  final Image image;
   final bool Function(Size size)? onSize;
 
-  const SinglePath({Key? key, this.type, this.onSize, this.path})
+  const SinglePath({Key? key, this.type, this.onSize, this.path, required this.image})
       : super(key: key);
 
   @override
@@ -89,6 +93,7 @@ class SinglePathState extends State<SinglePath> {
   Widget build(BuildContext context) {
     return RepaintBoundary(
       child: CustomPaint(
+        child: widget.image,
         isComplex: true,
         willChange: false,
         painter: PathSignaturePainter(

@@ -1,11 +1,9 @@
 import 'dart:typed_data';
+import 'dart:ui' as ui;
 
-import 'package:fast_color_picker/fast_color_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:story_painter/story_painter.dart';
-
-import 'dart:ui' as ui;
 
 void main() => runApp(MyApp());
 
@@ -61,8 +59,7 @@ class _HomeState extends State<Home> {
             icon: Icon(Icons.save),
             onPressed: () async {
               ui.Image image = await painterControl.toImage(pixelRatio: 3.0);
-              ByteData? byteData =
-                  await image.toByteData(format: ui.ImageByteFormat.png);
+              ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
               var pngBytes = byteData?.buffer.asUint8List();
               if (pngBytes == null) {
                 return;
@@ -95,13 +92,6 @@ class _HomeState extends State<Home> {
                 },
                 max: 30,
                 min: 5,
-              ),
-              FastColorPicker(
-                selectedColor: painterControl.color,
-                onColorSelected: (color) {
-                  painterControl.setColor(color);
-                  setState(() {});
-                },
               ),
             ],
           )

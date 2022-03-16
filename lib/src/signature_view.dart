@@ -8,8 +8,9 @@ import 'utils.dart';
 
 class StoryPainter extends StatelessWidget {
   final StoryPainterControl control;
+  final Image image;
 
-  StoryPainter({Key? key, required this.control}) : super(key: key);
+  StoryPainter({Key? key, required this.control, required this.image}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,14 +19,14 @@ class StoryPainter extends StatelessWidget {
       child: Stack(
         children: [
           StoryPainterPaint(
+            image: image,
             control: control,
             onSize: control.notifyDimension,
           ),
           GestureDetector(
             onLongPressStart: (args) => control.startPath(args.localPosition),
             onLongPressEnd: (args) => control.closePath(),
-            onLongPressMoveUpdate: (args) =>
-                control.alterPath(args.localPosition),
+            onLongPressMoveUpdate: (args) => control.alterPath(args.localPosition),
             onTapUp: (args) => control.closePath(),
             //onTapCancel: () => control.closePath(),
             onTapDown: (args) => control.startPath(args.localPosition),
@@ -165,8 +166,7 @@ class _StoryPainterViewSvgState extends State<_StoryPainterViewSvg> {
 }
 
 class _SinglePanGestureRecognizer extends PanGestureRecognizer {
-  _SinglePanGestureRecognizer({Object? debugOwner})
-      : super(debugOwner: debugOwner);
+  _SinglePanGestureRecognizer({Object? debugOwner}) : super(debugOwner: debugOwner);
 
   bool isDown = false;
 
